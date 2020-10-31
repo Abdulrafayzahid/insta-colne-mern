@@ -8,8 +8,6 @@ const cors = require("cors");
 
 app.use(cors());
 
-console.log(MONGO_URI,"MONGO_URI");
-
 mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
