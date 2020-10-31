@@ -53,6 +53,11 @@ i:hover{
     display: block;
 }
 
+h4{
+    margin: .912rem 0 .912rem 0;
+}
+
+
 /* Profile Css */
 
 .profile-details {
@@ -82,8 +87,8 @@ i:hover{
 
 .profile-image img {
     border-radius: 50%;
-    width: 180px;
-    height: 180px;
+    width: 160px;
+    height: 160px;
 }
 
 .profile-stats {
@@ -120,6 +125,20 @@ i:hover{
     width: 100%;
 }
 
+div#change-profile-div {
+    position: absolute;
+    background: gainsboro;
+    width: 500px;
+    height: 140px;
+    z-index: 1;
+    padding: 20px;
+}
+
+div#change-profile-div .file-field .btn{
+    padding: 0px;
+    width: 100%;
+}
+
 /*  home  */
 
 .home{
@@ -145,3 +164,101 @@ i:hover{
     object-fit: contain;
 }
 
+#change-profile-div{
+    display: none;
+}
+
+button.changeprofile.btn.waves-effect {
+    height: 20px !important;
+    line-height: 20px;
+}
+
+ul#nav-mobile{
+    display: none;
+    margin: 0px;
+}
+
+/* 
+Responsive
+*/
+
+@media (max-width: 935px){
+    .profile, .home, .createPost {
+        max-width: 80%;
+        margin: 0px auto;
+    }
+}
+
+@media (max-width: 575px){
+    .profile, .home, .createPost {
+        max-width: 90%;
+        margin: 0px auto;
+    }
+    .profile-image img {
+        width: 90px;
+        height: 90px;
+    }
+    
+    .profile-details{
+        margin-top: 0px;
+    }
+
+    button.changeprofile.btn.waves-effect {
+        height: 20px !important;
+        line-height: 10px;
+        padding: 5px;
+        font-size: 12px;
+    }
+
+    div#change-profile-div {
+        position: absolute;
+        background: gainsboro;
+        width: 300px;
+        height: 200px;
+        z-index: 1;
+        padding: 20px;
+    }
+
+    div#change-profile-div button.change.btn.waves-effect {
+        margin: 75px auto 0px auto;
+    }
+
+    h4 {
+        font-size: 1.5rem;
+    }
+
+    h6.stats {
+        font-size: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    ul#nav-desktop {
+        display: none;
+    }
+
+    ul#nav-mobile {
+        position: fixed;
+        width: 100%;
+        left: 0px;
+        bottom: 0;
+        display: flex;
+        background: #e4e1e1;
+        padding: 10px;
+        z-index: 1;
+    }
+
+    ul#nav-mobile li {
+        display: inline-block;
+        margin: auto;
+    }
+
+    ul#nav-mobile li a {
+        font-size: 12px;
+    }
+
+    .mycard {
+        padding: 10px;
+    }
+}
