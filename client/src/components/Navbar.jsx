@@ -51,22 +51,22 @@ const Navbar = ({ UserContext }) => {
 
   const fetchUsers = (query) => {
     setSearch(query)
-    if(query){
-     fetch("/search-user", {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        query
-      }),
-    }).then(res => res.json())
-      .then(users => {
-        setUsers(users.users)
-        console.log(users);
-      }) 
+    if (query) {
+      fetch("/search-user", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          query
+        }),
+      }).then(res => res.json())
+        .then(users => {
+          setUsers(users.users)
+          console.log(users);
+        })
     }
-    
+
   }
   return (
     <>
@@ -77,26 +77,27 @@ const Navbar = ({ UserContext }) => {
         </Link>
           <ul id="nav-desktop" className="right">
             {renterList()}
-            <div id="modal1" className="modal" ref={searchModal} style={{ 'color': 'white' }}>
-              <div className="modal-content">
-                <input id="text" placeholder="search user" type="text" 
-                value={search} onChange={(e) => fetchUsers(e.target.value)} 
-                className="validate" />
-                <ul className="collection" style={{ 'color': 'black' }}>
-                  
-                  {users?.map(item => {
-                  return <Link to={item?._id !== state?._id ? `/profile/${item._id}` : '/profile'} onClick={() => {
-                    M.Modal.init(searchModal.current).close()
-                    setSearch('')
-                  }}> <li className="collection-item" style={{'float':'inherit'}}>{item.name}</li></Link>
-                  })}
-                </ul>
-              </div>
-            </div>
           </ul>
 
         </div>
       </nav>
+      <div id="modal1" className="modal" ref={searchModal} style={{ 'color': 'white' }}>
+        <div className="modal-content">
+          <input id="text" placeholder="search user" type="text"
+            value={search} onChange={(e) => fetchUsers(e.target.value)}
+            className="validate" />
+          <ul className="collection" style={{ 'color': 'black' }}>
+
+            {users?.map(item => {
+              return <Link to={item?._id !== state?._id ? `/profile/${item._id}` : '/profile'} onClick={() => {
+                M.Modal.init(searchModal.current).close()
+                setSearch('')
+              }}> <li className="collection-item" style={{ 'float': 'inherit' }}>{item.name}</li></Link>
+            })}
+          </ul>
+        </div>
+      </div>
+
       <ul id="nav-mobile" className="right">
         {renterList()}
       </ul>
