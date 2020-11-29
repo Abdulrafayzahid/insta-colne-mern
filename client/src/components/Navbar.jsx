@@ -52,7 +52,7 @@ const Navbar = ({ UserContext }) => {
   const fetchUsers = (query) => {
     setSearch(query)
     if (query) {
-      fetch("/search-user", {
+      fetch("http://localhost:5000/search-user", {
         method: "post",
         headers: {
           "Content-Type": "application/json",

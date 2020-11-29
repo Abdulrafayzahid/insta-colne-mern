@@ -24,7 +24,7 @@ const Reset = () => {
       });
       return
     }
-    fetch("/reset-password", {
+    fetch("http://localhost:5000/reset-password", {
       method: "post",
       headers: {
         "Content-Type": "application/json",

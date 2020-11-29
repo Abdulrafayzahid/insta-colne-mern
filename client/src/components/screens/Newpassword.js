@@ -33,7 +33,7 @@ const NewPassword = () => {
       });
       return
     } 
-    fetch("/new-password", {
+    fetch("http://localhost:5000/new-password", {
       method: "post",
       headers: {
         "Content-Type": "application/json",

@@ -8,7 +8,7 @@ const Profile = ({ UserContext }) => {
   const { state, dispatch } = useContext(UserContext);
   const [image, setImage] = useState("");
   useEffect(() => {
-    fetch("/mypost", {
+    fetch("http://localhost:5000/mypost", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
@@ -45,7 +45,7 @@ const Profile = ({ UserContext }) => {
       .then((data) => {
         console.log(data);
 
-        fetch('/updateprofileimage', {
+        fetch('http://localhost:5000/updateprofileimage', {
           method: 'put',
           headers: {
             Authorization: "Bearer " + localStorage.getItem("jwt"),

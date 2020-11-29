@@ -9,7 +9,7 @@ const FollowingPosts = () => {
   const { state, dispatch } = useContext(UserContext);
 
   useEffect(() => {
-    fetch("/getSubPost", {
+    fetch("http://localhost:5000/getSubPost", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
@@ -20,7 +20,7 @@ const FollowingPosts = () => {
       });
   }, []);
   const likePost = (id) => {
-    fetch("/like", {
+    fetch("http://localhost:5000/like", {
       method: "put",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -45,7 +45,7 @@ const FollowingPosts = () => {
       .catch((err) => console.log(err));
   };
   const unlikePost = (id) => {
-    fetch("/unlike", {
+    fetch("http://localhost:5000/unlike", {
       method: "put",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -69,7 +69,7 @@ const FollowingPosts = () => {
       .catch((err) => console.log(err));
   };
   const postComment = (postId, text) => {
-    fetch("/comment", {
+    fetch("http://localhost:5000/comment", {
       method: "put",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),

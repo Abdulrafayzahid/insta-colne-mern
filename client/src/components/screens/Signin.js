@@ -26,7 +26,7 @@ const Signin = () => {
       });
       return
     }
-    fetch("/signin", {
+    fetch("http://localhost:5000/signin", {
       method: "post",
       headers: {
         "Content-Type": "application/json",

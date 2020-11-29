@@ -20,7 +20,7 @@ const UserProfile = () => {
       });
   }, []);
   const follow = () => {
-    fetch("/follow", {
+    fetch("http://localhost:5000/follow", {
       method: "put",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -56,7 +56,7 @@ const UserProfile = () => {
       });
   };
   const unfollow = () => {
-    fetch("/unfollow", {
+    fetch("http://localhost:5000/unfollow", {
       method: "put",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
