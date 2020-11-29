@@ -10,6 +10,9 @@ import CreatePost from "./components/screens/Createpost";
 import { reducer, initialState } from "./reducers/userReducer";
 import UserProfile from './components/screens/UserProfile'
 import FollowingPosts from "./components/screens/followingPosts";
+import Reset from "./components/screens/Reset";
+import NewPassword from "./components/screens/Newpassword";
+
 require("dotenv").config();
 
 export const UserContext = createContext();
@@ -22,7 +25,8 @@ const Routing = () => {
     if(user){
       dispatch({type: "USER", payload: user})
     }else{
-      history.push('/signin')
+      if(!history.location.pathname.includes('/reset'))
+          history.push('/signin')
     }
 
   }, [])
@@ -48,6 +52,12 @@ const Routing = () => {
       </Route>
       <Route path="/explore-followings">
         <FollowingPosts />
+      </Route>
+      <Route exact path="/reset">
+      <Reset />
+      </Route>
+      <Route path="/reset/:token">
+      <NewPassword />
       </Route>
     </Switch>
   );

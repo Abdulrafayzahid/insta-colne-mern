@@ -149,15 +149,15 @@ const Home = () => {
               <span className="card-title">
                 <Link
                   to={
-                    item.postedBy._id === state._id
+                    item?.postedBy?._id === state?._id
                       ? `/profile`
-                      : `/profile/${item.postedBy._id}`
+                      : `/profile/${item?.postedBy?._id}`
                   }
                 >
                   {" "}
                   {item?.postedBy?.name}{" "}
                 </Link>
-                {item.postedBy._id === state._id && (
+                {item?.postedBy?._id === state?._id && (
                   <i
                     className="material-icons"
                     onClick={() => deletePost(item._id)}
@@ -208,7 +208,7 @@ const Home = () => {
                     onClick={() => deleteComment(item._id, comment._id)}
                   >
                     <span style={{ fontWeight: 500 }}>
-                      {comment.postedBy.name}{" "}
+                      {comment?.postedBy?.name}{" "}
                     </span>
                     {comment?.text}
                   </p>

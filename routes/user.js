@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const router = express.Router();
 const User = mongoose.model("User");
+const crypto = require("crypto")
 const Post = mongoose.model("Post");
 const requireLogin = require("../middleware/requireLogin");
 
@@ -89,6 +90,39 @@ router.put('/updateprofileimage',requireLogin,(req,res)=>{
        return res.status(422).json({error})
      }
      res.json(result)
+  })
+})
+
+router.post('/reset-password',(req,res)=>{
+  crypto.randomBytes(32,(err,buffer)=>{
+    if(err){
+      return console.log(err);
+    }
+    const token = buffer.toString("hex")
+    User.findOne({email: req.body.email})
+    .then(user => {
+      if(!user){
+        return res.send(422).json({error:"User not found"})
+      }
+      user.resetToken = token
+      user.expireToken = Date.now() + 3600000
+      user.save().then(result => {
+        
+      })
+    })
+
+  })
+})
+
+router.post('/search-user',(req,res)=>{
+  let userPattern = new RegExp("^"+req.body.query)
+  User.find({name: {$regex:userPattern}})
+  .select("_id email, name")
+  .then(users => {
+    res.json({users})
+  })
+  .catch(error => {
+    console.log(error);
   })
 })
 

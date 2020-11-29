@@ -3,13 +3,11 @@ const mongoose = require('mongoose')
 const router = express.Router()
 const User = mongoose.model("User")
 const bcryptjs = require('bcryptjs')
+const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
 const {JWT_TOKEN} = require('../config/keys')
 const requireLogin = require('../middleware/requireLogin')
-
-router.get('/protected', requireLogin, (req,res)=>{
-    res.send("hello")
-})
+const { mailer } = require('../mailer')
 
 router.post('/signup',(req,res)=>{
     const {name, email, password, profileImage} = req.body
@@ -31,6 +29,12 @@ router.post('/signup',(req,res)=>{
             })
             user.save()
             .then(user => {
+                mailer(
+                    email,
+                    "Welcome!",
+                    "Hello from insta clone!!",
+                    `<h5>Hi ${name}</h5><b>Hello from insta clone!!</b>`
+                ).catch(console.error)
                 res.json({message:"User Added", ...user})
             })  
             .catch((error)=>{
@@ -63,7 +67,6 @@ router.post('/signin',(req,res)=>{
             //    res.json({message:"user successfully sign in"})
             const token = jwt.sign({_id: savedUser._id}, JWT_TOKEN)
             const {_id, email, name, followers, followings, profileImage} = savedUser
-        require: true
             res.json({token, user:{_id, email, name, followers, followings, profileImage}})
             }
             else{
@@ -75,4 +78,59 @@ router.post('/signin',(req,res)=>{
     .catch(error => console.log(error))
 })
 
+router.post('/reset-password',(req,res)=>{
+    crypto.randomBytes(32,(err,buffer)=>{
+        if(err){
+            console.error(err)
+        }
+        const token = buffer.toString("hex")
+        User.findOne({email:req.body.email})
+        .then(user => {
+            if(!user){
+                return res.status(422).json({message:"user not found with this email"})
+            }
+            user.resetToken = token
+            user.expireDate = Date.now() + 3600000
+            user.save().then(result => {
+                mailer(
+                    req.body.email,
+                    "Reset Password!",
+                    "Hi ${user.name},",
+                    `<p>Hi ${user.name},</p>
+                    <p>You requested for reset password</p>
+                     <h5>Click <a href="https://insta-clone-i.herokuapp.com/reset/${token}">here</a> to reset password</h5>
+                     <p><i>Note: Link will expire after 60min</i></p>
+                     `
+                ).catch(console.error)
+            })
+            res.json({message:"Check your email"})
+        })
+    })
+})
+
+router.post('/new-password',(req,res)=>{
+    const newpassword = req.body.password
+    const userToken = req.body.token
+    if(!newpassword || !userToken){
+        return res.json(400).json({error:"Bad request"})
+    }
+    User.findOne({resetToken:userToken, expireDate:{$gt: Date.now()}})
+    .then(user => {
+        if(!user){
+            return res.status(422).json({error:"Session expired, try to reset password again"})
+        }
+        else{
+            bcryptjs.hash(newpassword,12).then(hashpassword => {
+                user.password = hashpassword
+                user.resetToken = undefined
+                user.expireDate = undefined
+                user.save().then(savedUser => {
+                    res.json({message:"Password updated successfully"})
+                })
+            })
+        }
+    }).catch(error => {
+        console.log(error);
+    })
+})
 module.exports = router

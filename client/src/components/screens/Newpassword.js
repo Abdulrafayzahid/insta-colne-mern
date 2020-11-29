@@ -1,39 +1,46 @@
+
+
+
 import React, {useState, useContext} from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory,useParams } from "react-router-dom";
 import M from "materialize-css";
 import {UserContext} from '../../App'
 
-const Signin = () => {
-  const {state,dispatch} = useContext(UserContext)
-  const [email, setEmail] = useState("");
+const NewPassword = () => {
   const [password, setPassword] = useState("");
+  const [match, setmatch] = useState(false);
+  const [confirmPassword, setconfirmPassword] = useState("");
   const history = useHistory()
-  const onSubmit = () => {
-    const validateEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
+  const comparePassword = async () => {
+   
+  }
+  const {token} = useParams()
+  console.log(token);
+  const onSubmit = async () => {
     
-    if(!email || !password){
+    if(!password){
       M.toast({
-        html: "please enter all fields",
+        html: "please enter password",
         classes: "#d84315 deep-orange darken-3",
       });
       return
     }
-    
-    if(!validateEmail.test(email)){
+    if (password !== confirmPassword) {
       M.toast({
-        html: "invalid email",
+        html: "password did not match",
         classes: "#d84315 deep-orange darken-3",
       });
       return
-    }
-    fetch("/signin", {
+    } 
+    fetch("/new-password", {
       method: "post",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email,
         password,
+        token
       }),
     })
       .then((res) => res.json())
@@ -44,18 +51,11 @@ const Signin = () => {
             classes: "#d84315 deep-orange darken-3",
           });
         } else {
-          
-          localStorage.setItem("jwt",data.token)
-          localStorage.setItem("user",JSON.stringify(data.user))
-          dispatch({
-            type : "USER",
-            payload : data.user  
-          })
           M.toast({
-            html: "Success",
+            html: data.message,
             classes: "#66bb6a green lighten-1",
           });
-          history.push('/')
+          history.push('/signin')
         }
       });
   };
@@ -63,7 +63,6 @@ const Signin = () => {
     <div className="mycard">
       <div className="card auth-card input-field">
         <h2>Instagram</h2>
-        <input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="validate" placeholder="Email" />
         <input
           id="password"
           type="password"
@@ -72,29 +71,25 @@ const Signin = () => {
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
         />
+        <input
+          id="password"
+          type="password"
+          className="validate"
+          value={confirmPassword}
+          placeholder="Confirm Password"
+          onChange={(e) => setconfirmPassword(e.target.value)}
+        />
         <button
           className="signin btn waves-effect #0095f6"
           type="submit"
           onClick={onSubmit}
           name="action"
         >
-          Sign In
+          Update Password
         </button>
-        <h6 className="auth-link">
-          Don't have an account?
-            <Link to='/signup'>
-            &nbsp; Sign up
-            </Link>
-        </h6>
-        <h6 className="auth-link">
-          Forgot password?
-            <Link to='/reset'>
-            &nbsp; reset here
-            </Link>
-        </h6>
       </div>
     </div>
   );
 };
 
-export default Signin;
+export default NewPassword;

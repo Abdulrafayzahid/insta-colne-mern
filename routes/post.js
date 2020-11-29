@@ -8,6 +8,7 @@ router.get("/allpost", requireLogin, (req, res) => {
   Post.find()
     .populate("postedBy", "_id name")
     .populate("comments.postedBy","_id name")
+    .sort('-createdAt')
     .then((posts) => res.json({ posts }))
     .catch((error) => console.log(error));
 });
@@ -48,6 +49,7 @@ router.get("/getSubPost", requireLogin, (req, res) => {
   Post.find({postedBy:{$in:req.user.followings}})
     .populate("postedBy", "_id name")
     .populate("comments.postedBy","_id name")
+    .sort('-createdAt')
     .then((posts) => res.json({ posts }))
     .catch((error) => console.log(error));
 });

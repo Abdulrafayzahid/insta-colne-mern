@@ -14,6 +14,14 @@ const userSchema = new mongoose.Schema({
         type: String,
         require: true
     },
+    resetToken:{
+        type: String,
+        require: false
+    },
+    expireDate:{
+        type: Date,
+        require: false
+    },
     profileImage:{
         type: String,
         default:"https://res.cloudinary.com/abdulrafay/image/upload/v1603043875/blank-profile-picture-973460_640_ifdjcz.png"
@@ -26,6 +34,6 @@ const userSchema = new mongoose.Schema({
         type:ObjectId,
         ref:"User"
     }]
-})
+},{timestamps:true})
 
 mongoose.model("User", userSchema)

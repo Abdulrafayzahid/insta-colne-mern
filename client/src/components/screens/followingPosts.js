@@ -150,15 +150,15 @@ const FollowingPosts = () => {
               <span className="card-title">
                 <Link
                   to={
-                    item.postedBy._id === state._id
+                    item.postedBy?._id === state?._id
                       ? `/profile`
-                      : `/profile/${item.postedBy._id}`
+                      : `/profile/${item?.postedBy?._id}`
                   }
                 >
                   {" "}
                   {item?.postedBy?.name}{" "}
                 </Link>
-                {item.postedBy._id === state._id && (
+                {item?.postedBy?._id === state?._id && (
                   <i
                     className="material-icons"
                     onClick={() => deletePost(item._id)}
@@ -174,13 +174,10 @@ const FollowingPosts = () => {
             </div>
             <div className="card-content" key={item?._id}>
               <p>
-                {/* <i className="material-icons" style={{ color: "red" }}>
-                favorite 
-              </i> */}
-                {item?.likes?.includes(state._id) ? (
+                {item?.likes?.includes(state?._id) ? (
                   <i
                     className="material-icons"
-                    onClick={() => unlikePost(item._id)}
+                    onClick={() => unlikePost(item?._id)}
                     style={{ color: "red" }}
                   >
                     favorite
@@ -188,7 +185,7 @@ const FollowingPosts = () => {
                 ) : (
                   <i
                     className="material-icons"
-                    onClick={() => likePost(item._id)}
+                    onClick={() => likePost(item?._id)}
                     style={{ color: "red" }}
                   >
                     favorite_border
@@ -206,10 +203,10 @@ const FollowingPosts = () => {
                 return (
                   <p
                     key={comment._id}
-                    onClick={() => deleteComment(item._id, comment._id)}
+                    onClick={() => deleteComment(item?._id, comment?._id)}
                   >
                     <span style={{ fontWeight: 500 }}>
-                      {comment.postedBy.name}{" "}
+                      {comment?.postedBy?.name}{" "}
                     </span>
                     {comment?.text}
                   </p>
@@ -219,7 +216,7 @@ const FollowingPosts = () => {
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  postComment(item._id, e.target[0].value);
+                  postComment(item?._id, e.target[0].value);
                 }}
               >
                 <input type="text" id="text" placeholder="add a comment" />
