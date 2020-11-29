@@ -262,3 +262,7 @@ Responsive
         padding: 10px;
     }
 }
+@media (max-width: 575px){
+ul#nav-desktop {
+    display: block !important;
+}}

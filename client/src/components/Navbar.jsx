@@ -79,7 +79,6 @@ const Navbar = ({ UserContext }) => {
             {renterList()}
             <div id="modal1" className="modal" ref={searchModal} style={{ 'color': 'white' }}>
               <div className="modal-content">
-                <h4>Modal Header</h4>
                 <input id="text" placeholder="search user" type="text" 
                 value={search} onChange={(e) => fetchUsers(e.target.value)} 
                 className="validate" />
